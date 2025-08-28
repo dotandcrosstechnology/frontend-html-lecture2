@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Text Formatting & Links - Week 1 Lecture 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: white;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .instructor-info {
+            margin-top: 1rem;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .nav {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102,126,234,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav a:hover::before {
+            left: 100%;
+        }
+
+        .nav a:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.8s ease;
+        }
+
+        .section.visible h2::after {
+            width: 100%;
+        }
+
+        .demo-box {
+            background: linear-gradient(135deg, #f8f9ff, #e8ecff);
+            border: 2px solid #667eea;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .demo-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102,126,234,0.2);
+        }
+
+        .demo-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .demo-box:hover::before {
+            left: 100%;
+        }
+
+        .code-example {
+            background: #f4f4f4;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-example::before {
+            content: 'CODE';
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background: #667eea;
+            color: white;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            border-radius: 3px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .formatting-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .format-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .format-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px) rotate(1deg);
+        }
+
+        .link-demo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .link-button {
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-weight: bold;
+        }
+
+        .internal-link {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .external-link {
+            background: linear-gradient(135deg, #ff7b7b, #ff9a56);
+            color: white;
+        }
+
+        .email-link {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+        }
+
+        .link-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.6s ease;
+        }
+
+        .link-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .link-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .practice-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin: 3rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .practice-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .social-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .facebook { background: #3b5998; }
+        .twitter { background: #1da1f2; }
+        .instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        .linkedin { background: #0077b5; }
+        .github { background: #333; }
+
+        .social-link:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .social-link:hover::before {
+            left: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .nav ul { flex-direction: column; align-items: center; }
+            .formatting-examples { grid-template-columns: 1fr; }
+            .container { padding: 1rem; }
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+    
+    <header class="header">
+        <div class="container">
+            <h1>HTML Text Formatting & Links</h1>
+            <p class="subtitle">Week 1 - HTML Lecture 2</p>
+            <div class="instructor-info">
+                <p><strong>Instructor:</strong> Anas Yousaf</p>
+                <p><strong>Company:</strong> Dot and Cross Technology</p>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <ul>
+            <li><a href="#formatting">Text Formatting</a></li>
+            <li><a href="#links">Links & Anchors</a></li>
+            <li><a href="#practice">Class Practice</a></li>
+            <li><a href="#homework">Home Task</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <section id="formatting" class="section">
+            <h2>Text Formatting Elements</h2>
+            <p>HTML provides several elements for formatting text to convey meaning and emphasis.</p>
+            
+            <div class="formatting-examples">
+                <div class="format-card">
+                    <h3>&lt;strong&gt; Element</h3>
+                    <div class="demo-box">
+                        <p>This text has <strong>strong importance</strong> and appears bold.</p>
+                    </div>
+                    <div class="code-example">
+&lt;p&gt;This text has &lt;strong&gt;strong importance&lt;/strong&gt; and appears bold.&lt;/p&gt;
+                    </div>
+                </div>
+
+                <div class="format-card">
+                    <h3>&lt;em&gt; Element</h3>
+                    <div class="demo-box">
+                        <p>This text has <em>emphasis</em> and appears italic.</p>
+                    </div>
+                    <div class="code-example">
+&lt;p&gt;This text has &lt;em&gt;emphasis&lt;/em&gt; and appears italic.&lt;/p&gt;
+                    </div>
+                </div>
+
+                <div class="format-card">
+                    <h3>&lt;mark&gt; Element</h3>
+                    <div class="demo-box">
+                        <p>This text is <mark class="highlight">highlighted</mark> for reference.</p>
+                    </div>
+                    <div class="code-example">
+&lt;p&gt;This text is &lt;mark&gt;highlighted&lt;/mark&gt; for reference.&lt;/p&gt;
+                    </div>
+                </div>
+
+                <div class="format-card">
+                    <h3>&lt;del&gt; Element</h3>
+                    <div class="demo-box">
+                        <p>This text has been <del>deleted</del> from the document.</p>
+                    </div>
+                    <div class="code-example">
+&lt;p&gt;This text has been &lt;del&gt;deleted&lt;/del&gt; from the document.&lt;/p&gt;
+                    </div>
+                </div>
+
+                <div class="format-card">
+                    <h3>&lt;ins&gt; Element</h3>
+                    <div class="demo-box">
+                        <p>This text has been <ins>inserted</ins> into the document.</p>
+                    </div>
+                    <div class="code-example">
+&lt;p&gt;This text has been &lt;ins&gt;inserted&lt;/ins&gt; into the document.&lt;/p&gt;
+                    </div>
+                </div>
+
+                <div class="format-card">
+                    <h3>Combined Formatting</h3>
+                    <div class="demo-box">
+                        <p><strong>Important:</strong> <em>Always</em> <mark>remember</mark> to <del>forget</del> <ins>validate</ins> your HTML!</p>
+                    </div>
+                    <div class="code-example">
+&lt;p&gt;&lt;strong&gt;Important:&lt;/strong&gt; &lt;em&gt;Always&lt;/em&gt; &lt;mark&gt;remember&lt;/mark&gt; 
+to &lt;del&gt;forget&lt;/del&gt; &lt;ins&gt;validate&lt;/ins&gt; your HTML!&lt;/p&gt;
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="links" class="section">
+            <h2>Anchor Tags and Links</h2>
+            <p>The &lt;a&gt; element creates hyperlinks to other pages, sections, or email addresses.</p>
+
+            <div class="demo-box">
+                <h3>Types of Links</h3>
+                <div class="link-demo">
+                    <a href="#formatting" class="link-button internal-link">Internal Link</a>
+                    <a href="https://www.google.com" target="_blank" class="link-button external-link">External Link</a>
+                    <a href="mailto:anas@dotandcross.com" class="link-button email-link">Email Link</a>
+                </div>
+
+                <div class="code-example">
+&lt;!-- Internal Link --&gt;
+&lt;a href="#formatting"&gt;Go to Text Formatting Section&lt;/a&gt;
+
+&lt;!-- External Link --&gt;
+&lt;a href="https://www.google.com" target="_blank"&gt;Visit Google&lt;/a&gt;
+
+&lt;!-- Email Link --&gt;
+&lt;a href="mailto:anas@dotandcross.com"&gt;Send Email&lt;/a&gt;
+
+&lt;!-- Phone Link --&gt;
+&lt;a href="tel:+1234567890"&gt;Call Us&lt;/a&gt;
+                </div>
+            </div>
+
+            <div class="demo-box">
+                <h3>Target Attributes</h3>
+                <ul>
+                    <li><code>target="_blank"</code> - Opens in new tab/window</li>
+                    <li><code>target="_self"</code> - Opens in same frame (default)</li>
+                    <li><code>target="_parent"</code> - Opens in parent frame</li>
+                    <li><code>target="_top"</code> - Opens in full window</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="practice" class="section">
+            <div class="practice-section">
+                <h2>Class Practice Exercise</h2>
+                <p>Create a text with various formatting and add navigation links to different sections.</p>
+                
+                <div class="demo-box" style="background: white; color: #333; margin-top: 2rem;">
+                    <h3>Sample Practice Text</h3>
+                    <nav>
+                        <a href="#intro">Introduction</a> | 
+                        <a href="#features">Features</a> | 
+                        <a href="#contact">Contact</a>
+                    </nav>
+                    
+                    <div id="intro">
+                        <h4>Introduction</h4>
+                        <p><strong>Welcome</strong> to our <em>amazing</em> website! This is a <mark>highlighted</mark> section that demonstrates various HTML formatting elements.</p>
+                    </div>
+                    
+                    <div id="features">
+                        <h4>Features</h4>
+                        <p>Our service includes <ins>new features</ins> and we've <del>removed outdated</del> improved functionality.</p>
+                    </div>
+                    
+                    <div id="contact">
+                        <h4>Contact</h4>
+                        <p>Email us at <a href="mailto:info@example.com">info@example.com</a> or visit our <a href="https://example.com" target="_blank">website</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="homework" class="section">
+            <h2>Home Task: Social Media Navigation</h2>
+            <p>Build a simple navigation menu with links to your social media profiles.</p>
+            
+            <div class="demo-box">
+                <h3>Example Social Media Navigation</h3>
+                <nav class="social-nav">
+                    <a href="https://facebook.com" target="_blank" class="social-link facebook" title="Facebook">f</a>
+                    <a href="https://twitter.com" target="_blank" class="social-link twitter" title="Twitter">t</a>
+                    <a href="https://instagram.com" target="_blank" class="social-link instagram" title="Instagram">i</a>
+                    <a href="https://linkedin.com" target="_blank" class="social-link linkedin" title="LinkedIn">in</a>
+                    <a href="https://github.com" target="_blank" class="social-link github" title="GitHub">gh</a>
+                </nav>
+                
+                <div class="code-example">
+&lt;nav class="social-nav"&gt;
+  &lt;a href="https://facebook.com/yourprofile" target="_blank"&gt;Facebook&lt;/a&gt;
+  &lt;a href="https://twitter.com/yourhandle" target="_blank"&gt;Twitter&lt;/a&gt;
+  &lt;a href="https://instagram.com/yourprofile" target="_blank"&gt;Instagram&lt;/a&gt;
+  &lt;a href="https://linkedin.com/in/yourprofile" target="_blank"&gt;LinkedIn&lt;/a&gt;
+  &lt;a href="https://github.com/yourusername" target="_blank"&gt;GitHub&lt;/a&gt;
+&lt;/nav&gt;
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="practice-section">
+                <h2>Key Takeaways</h2>
+                <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                    <li><strong>&lt;strong&gt;</strong> and <strong>&lt;em&gt;</strong> provide semantic meaning</li>
+                    <li><strong>&lt;mark&gt;</strong> highlights important text</li>
+                    <li><strong>&lt;del&gt;</strong> and <strong>&lt;ins&gt;</strong> show document changes</li>
+                    <li><strong>&lt;a&gt;</strong> creates links with href attribute</li>
+                    <li><strong>target="_blank"</strong> opens links in new tabs</li>
+                    <li><strong>Internal links</strong> use # for page sections</li>
+                    <li><strong>mailto:</strong> creates email links</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll indicator
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('scrollIndicator').style.width = scrolled + '%';
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Add click animation to buttons
+        document.querySelectorAll('.link-button, .social-link').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.height, rect.width);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add CSS for ripple effect
+        const style = document.createElement('style');
+        style.textContent = `
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255,255,255,0.6);
+                transform: scale(0);
+                animation: ripple-animation 0.6s linear;
+                pointer-events: none;
+            }
+            
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
